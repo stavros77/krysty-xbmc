@@ -62,7 +62,7 @@ def TVSHOWS(url):
 	AZ = (ltr for ltr in string.ascii_uppercase)
 	
 	addDir('All',url,1,TVshowsIcon)
-	addDir('Last Added',url,5,TVshowsIcon)
+	addDir('Recently Added',url,5,TVshowsIcon)
 	addDir('Search',url,15,TVshowsIcon)
 	addDir('[1-9]',url,17,TVshowsIcon)
 	for character in AZ:
@@ -200,60 +200,47 @@ def getEpisodes(url,season,title,thumbnail):
 	xbmcplugin.endOfDirectory(int(sys.argv[1]))
 	
 
-def lastAdded(cat):
-	progress = xbmcgui.DialogProgress()
-	progress.create('Progress', 'Please wait...')
-	progress.update(1, "", "Loading list - 1%", "")
+def recentlyAdded(cat):
+    html = http_req(siteUrl)
+    
+    soup = BeautifulSoup(html).findAll('div', {'id': 'tab1'})
 
-	div = htmlFilter(str(BeautifulSoup(http_req(siteUrl)).findAll("div", {"id": "tab1"})), True)
-	
-	if cat == 'tvshows':
-		results = re.findall(r'<a class="link" href="(seriale2)(.+?html?)">(.+?)</a>.+?">(.+?)</div></div>', div)
-	elif cat == 'movies':
-		results = re.findall(r'<a class="link" href="(filme)(.+?html?)">(.+?)</a>.+?">(.+?)</div>', div)
-	
-	total = len(results)
-	current = 0
+    if cat == 'tvshows':
+        soup = soup[0]
+        param = 'seriale'
 
-	while current <= total-1:
-		
-		type = results[current][0]
-		link = type + results[current][1]
-		title = results[current][2]
-		ep_year = results[current][3]
-		url = urlFilter(link)
-		
-		if type == 'seriale2':
-			eps = re.findall(r'S(\d+)E(\d+)', ep_year)
-			if eps:
-				season = eps[0][0]
-				episode = eps[0][1]
-			else:
-				season = ''
-				episode = ''
-			
-			name = '%s %sx%s' % (title, season, episode)
-			
-			addDir(name,url,8,"",title,season,episode,folder=False)
-		
-		elif type == 'filme':
-			year = re.findall('(\d{4,4})', ep_year)
-			year = year[0] if year else "unknown"
-			name = '%s (%s)' % (title, year)
-			
-			addDir(name,url,8,"",name,folder=False)
+    elif cat == 'movies':
+        soup = soup[1]
+        param = 'filme'
 
-		if progress.iscanceled(): sys.exit()
-		
-		percent = int(((current + 1) * 100) / total)
-		message = "Loading list - " + str(percent) + "%"
-		progress.update(percent, "", message, "")
-		
-		current += 1
-	
-	progress.close()
-	
-	xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    results = soup.findAll('a', href=re.compile(param), limit=20)
+        
+    total = len(results)
+    current = 0
+
+    for a in results:
+        ep_year = a.parent.parent.findAll('div')[1].text.strip()
+        title = htmlFilter(a.text)
+        url = urlFilter(a['href'])
+        
+        if cat == 'tvshows':
+            eps = re.search(r'S(\d+)E(\d+-?\d*)', ep_year)
+            
+            season = eps.group(1) if eps else ''
+            episode = eps.group(2) if eps else ''
+        
+            name = '%s %sx%s' % (title, season, episode)
+        
+            addDir(name,url,8,"",title,season,episode,folder=False,totalItems=total)
+        
+        elif cat == 'movies':
+            year = re.search('(\d{4,4})', ep_year)
+            year = year.group(1) if year else 'unknown'
+            name = '%s (%s)' % (title, year)
+            
+            addDir(name,url,8,"",name,folder=False,totalItems=total)
+
+    xbmcplugin.endOfDirectory(int(sys.argv[1]))
 	
 
 def MOVIES(url,order=None):
@@ -269,7 +256,7 @@ def MOVIES(url,order=None):
 	
 	else:
 		addDir('Search',url,14,MoviesIcon)
-		addDir('Last Added',url,6,MoviesIcon)
+		addDir('Recently Added',url,6,MoviesIcon)
 		addDir('By Year',url,11,MoviesIcon)
 		addDir('By Genre',url,12,MoviesIcon)
 	
@@ -277,47 +264,48 @@ def MOVIES(url,order=None):
 
 
 def getMovies(url):
-	progress = xbmcgui.DialogProgress()
-	progress.create('Progress', 'Please wait...')
-	progress.update(1, "", "Loading list - 1%", "")
-	
-	soup = BeautifulSoup(http_req(url))
-	
-	pages = str(soup.find("div", {"id": "numarpagini"}))
-	pages = max(int(x) for x in re.findall(r'([\d]+)</a>', pages))
-	page = int(re.search('pagina=(\d+)', url).group(1))
-	
-	div = soup.find("div", {"id": "content"})
-	links  = div.findAll("a", {"class": "link"})
-	thumbs = re.findall(r'<img src="../(.+?)"', str(div))
-	years = re.findall(r'Aparitie: ?(\d+)', str(div))
-	
-	total = len(links)
-	current = 0
-	
-	while current <= total - 1:
-		year = years[0] if years else "unknown"
-		name = "%s (%s)" % (htmlFilter(links[current].text), year)
-		link = urlFilter(links[current]['href'])
-		thumbnail = urlFilter(thumbs[current])
-		
-		addDir(name, link, 8, thumbnail, name, folder=False)
-		
-		if progress.iscanceled(): sys.exit()
-		
-		percent = int(((current + 1) * 100) / total)
-		message = "Loading list - " + str(percent) + "%"
-		progress.update(percent, "", message, "")
-		
-		current += 1
-	
-	if not page == pages:
-		url = re.sub('pagina=\d+', 'pagina=' + str(page + 1), url)
-		addDir("Next Page >>", url, 9)
-	
-	progress.close()
-	
-	xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    progress = xbmcgui.DialogProgress()
+    progress.create('Progress', 'Please wait...')
+    progress.update(1, "", "Loading list - 1%", "")
+
+    soup = BeautifulSoup(http_req(url))
+
+    pages = str(soup.find("div", {"id": "numarpagini"}))
+    pages = max(int(x) for x in re.findall(r'([\d]+)</a>', pages))
+    page = int(re.search('pagina=(\d+)', url).group(1))
+
+    div = soup.find("div", {"id": "content"})
+    links  = div.findAll("a", {"class": "link"})
+    thumbs = re.findall(r'<img src="../(.+?)"', str(div))
+    years = re.findall(r'Aparitie: ?(\d+)', str(div))
+
+    total = len(links)
+    current = 0
+
+    while current <= total - 1:
+        year = re.search('(\d{4,4})', years[current])
+        year = year.group(1) if year else 'unknown'
+        name = "%s (%s)" % (htmlFilter(links[current].text), year)
+        link = urlFilter(links[current]['href'])
+        thumbnail = urlFilter(thumbs[current])
+        
+        addDir(name, link, 8, thumbnail, name, folder=False)
+        
+        if progress.iscanceled(): sys.exit()
+        
+        percent = int(((current + 1) * 100) / total)
+        message = "Loading list - " + str(percent) + "%"
+        progress.update(percent, "", message, "")
+        
+        current += 1
+
+    if not page == pages:
+        url = re.sub('pagina=\d+', 'pagina=' + str(page + 1), url)
+        addDir("Next Page >>", url, 9)
+
+    progress.close()
+
+    xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 	
 def SEARCH(cat):
@@ -490,44 +478,59 @@ def selectSource(url,title='',thumbnail='',season='',episode='',ep_name=''):
 	
 	
 def getSources(url):
-	sources = []
-	try:
-		html = http_req(url)
+    sources = []
+    try:
+        html = http_req(url)
 
-		quality = ''
-		if(re.search('filme', url)):
-			quality = re.search(r'Calitate film: nota <b>(.+?)</b>', html)
-		
-		match = re.search(r"<a class='link' href='(player.+?sfast.+?html?)'", html)
-		
-		url = urlFilter(match.group(1))
-		html = http_req(url)
-		
-		playerdiv = re.search(r"<div class='player.+?</div>", html, re.DOTALL).group(0)
-		a = re.search(r"<a href='(http:\/\/(?:www\.)?.+?)'>", playerdiv).group(1)
-		
-		url = a[a.rfind('http'):]
-		html = http_req(url)
-		
-		match = re.search(r"'file'\s*:\s*'(.+?)',", html)
-		videoLink = match.group(1) + '|referer=' + url
-		
-		subtitle = ''
-		if plugin.getSetting("enableSub") == 'true':
-			match = re.search(r"'captions\.file'\s*:\s*'(.+?)',", html)
-			if match:
-				subtitle = saveSubtitle(match.group(1))
+        quality = ''
+        if(re.search('filme', url)):
+            quality = re.search(r'Calitate film: nota <b>(.+?)</b>', html)
+        
+        match = re.search(r"<a class='link' href='(player.+?sfast.+?html?)'", html)
+        
+        url = urlFilter(match.group(1))
+        html = http_req(url)
+        
+        m = re.search(r"<div class='player.+?'", html, re.DOTALL)
+        x, y = m.span()
 
-		if(quality == ''):
-			item = {'name': 'Play Video', 'url': videoLink, 'subtitle': subtitle}
-		else:
-			item = {'name': 'Play Video (Quality:'+quality.group(1)+')', 'url': videoLink, 'subtitle': subtitle}
+        html = html[x:]
+        playerdiv = ''
 
-		sources.append(item)
+        i = 0
+        for line in html.splitlines():
+            playerdiv += line.strip()
+            m = re.findall(r'<div', line)
+            n = re.findall(r'<\/div>', line)
+            i += len(m)
+            i -= len(n)
+            if i == 0:
+                break
 
-		return sources
-	except:
-		return False
+        s = re.search(r"<a href='(http:\/\/(?:www\.)?.+?)'>", playerdiv).group(1)
+
+        url = s[s.rfind('http'):]
+        html = http_req(url)
+        
+        match = re.search(r"'file'\s*:\s*'(.+?)',", html)
+        videoLink = match.group(1) + '|referer=' + url
+        
+        subtitle = ''
+        if plugin.getSetting("enableSub") == 'true':
+            match = re.search(r"'captions\.file'\s*:\s*'(.+?)',", html)
+            if match:
+                subtitle = saveSubtitle(match.group(1))
+
+        if(quality == ''):
+            item = {'name': 'Play Video', 'url': videoLink, 'subtitle': subtitle}
+        else:
+            item = {'name': 'Play Video (Quality:'+quality.group(1)+')', 'url': videoLink, 'subtitle': subtitle}
+
+        sources.append(item)
+
+        return sources
+    except:
+        return False
 
 
 def saveSubtitle(url):
@@ -544,7 +547,7 @@ def saveSubtitle(url):
 	return ''
 
 
-def addDir(name,url,mode,thumbnail='',title='',season='',episode='',episode_name='',folder=True):
+def addDir(name,url,mode,thumbnail='',title='',season='',episode='',episode_name='',folder=True,totalItems=0):
 	ok = True
 	params = {'name': name, 'mode': mode, 'url': url, 'thumbnail': thumbnail}
 
@@ -568,7 +571,7 @@ def addDir(name,url,mode,thumbnail='',title='',season='',episode='',episode_name
 		
 	liz.setInfo(type="Video", infoLabels = {"title": name})
 
-	ok = xbmcplugin.addDirectoryItem(handle = int(sys.argv[1]), url = set_params(params), listitem = liz, isFolder = folder)
+	ok = xbmcplugin.addDirectoryItem(handle = int(sys.argv[1]), url = set_params(params), listitem = liz, isFolder = folder,totalItems=totalItems)
 	return ok
 
 
@@ -644,8 +647,8 @@ elif mode == 1: getTVshows(url)
 elif mode == 2: getSeasons(name,url)
 elif mode == 3: getEpisodes(url,season,title,thumbnail)
 elif mode == 4: TVSHOWS(url)
-elif mode == 5: lastAdded('tvshows')
-elif mode == 6: lastAdded('movies')
+elif mode == 5: recentlyAdded('tvshows')
+elif mode == 6: recentlyAdded('movies')
 elif mode == 8: selectSource(url,title,thumbnail,season,episode,ep_name)
 elif mode == 9: getMovies(url)
 elif mode == 10: MOVIES(url)

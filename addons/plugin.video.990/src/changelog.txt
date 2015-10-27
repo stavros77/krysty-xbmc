@@ -1,3 +1,9 @@
+0.4.17
+-> fixed: video links not available
+-> fixed: empty list in last added section for tvshows
+-> fixed: incorrect year display for movies
+-> changed: rename of Last Added category to Recently Added :)
+
 0.4.16
 -> fixed: subtitle problem
 
