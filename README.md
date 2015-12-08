@@ -4,7 +4,7 @@
 <br /><br />
 plugin.video.990 v0.4.17 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.4.17.zip)
 
-plugin.video.990 v0.5.0 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.5.0.zip) (for testing purpose only)
+plugin.video.990 v0.5.1 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.5.1.zip) (for testing purpose only)
 
 plugin.video.cinemaxx v1.0.11 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.cinemaxx/plugin.video.cinemaxx-1.0.11.zip)
 
