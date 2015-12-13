@@ -226,8 +226,8 @@ def recentlyAdded(cat):
         if cat == 'tvshows':
             eps = re.search(r'S(\d+)E(\d+-?\d*)', ep_year)
             
-            season = eps.group(1) if eps else ''
-            episode = eps.group(2) if eps else ''
+            season = str(eps.group(1)) if eps else ''
+            episode = str(eps.group(2)) if eps else ''
         
             name = '%s %sx%s' % (title, season, episode)
         
@@ -235,7 +235,7 @@ def recentlyAdded(cat):
         
         elif cat == 'movies':
             year = re.search('(\d{4,4})', ep_year)
-            year = year.group(1) if year else 'unknown'
+            year = str(year.group(1)) if year else 'unknown'
             name = '%s (%s)' % (title, year)
             
             addDir(name,url,8,"",name,folder=False,totalItems=total)
@@ -284,7 +284,7 @@ def getMovies(url):
 
     while current <= total - 1:
         year = re.search('(\d{4,4})', years[current])
-        year = year.group(1) if year else 'unknown'
+        year = str(year.group(1)) if year else 'unknown'
         name = "%s (%s)" % (htmlFilter(links[current].text), year)
         link = urlFilter(links[current]['href'])
         thumbnail = urlFilter(thumbs[current])
