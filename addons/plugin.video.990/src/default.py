@@ -517,7 +517,8 @@ def getSources(url):
         
         subtitle = ''
         if plugin.getSetting("enableSub") == 'true':
-            match = re.search(r"'captions\.file'\s*:\s*'(.+?)',", html)
+            html = ''.join(line.strip() for line in html.split('\n'))
+            match = re.search(r"'tracks':\s?\[\{\s?'file':\s?\"(.+?)\",\s?'label':", html)
             if match:
                 subtitle = saveSubtitle(match.group(1))
 

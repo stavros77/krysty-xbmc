@@ -2,9 +2,9 @@
 
 <strong>If you like this project please </strong>[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9559SH2MKQ7S)
 <br /><br />
-plugin.video.990 v0.4.18 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.4.18.zip)
+plugin.video.990 v0.4.19 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.4.19.zip)
 
-plugin.video.990 v0.5.2 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.5.2.zip) (for testing purpose only)
+plugin.video.990 v0.5.3 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.990/plugin.video.990-0.5.3.zip) (for testing purpose only)
 
 plugin.video.cinemaxx v1.0.11 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/addons/plugin.video.cinemaxx/plugin.video.cinemaxx-1.0.11.zip)
 
