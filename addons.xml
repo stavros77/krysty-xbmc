@@ -38,16 +38,39 @@
     </extension>
 </addon>
 
-<addon id="repository.googlecode.krysty-xbmc" name="krysty-xbmc addons" version="1.0.4" provider-name="krysty">
-	<extension point="xbmc.addon.repository" name="krysty-xbmc add-on repository">
-		<info compressed="false">https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/addons/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/addons/addons.xml.md5</checksum>
-		<datadir zip="true">https://github.com/yokrysty/krysty-xbmc/tree/master/addons</datadir>
+<addon id="repository.krysty-xbmc" name="Krysty's Addons" version="1.0.0" provider-name="krysty">
+	<extension point="xbmc.addon.repository" name="Krysty's Addons">
+		<info compressed="false">https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Install Addons from https://github.com/yokrysty/krysty-xbmc</summary>
 		<description>Download and install addons for Kodi (formerly known as XBMC).</description>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<addon id="service.subtitles.opensubtitles"
+       name="OpenSubtitles.org"
+       version="5.0.14"
+       provider-name="amet">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.subtitle.module"
+             library="service.py" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">OpenSubtitles</summary>
+    <description lang="en">Search and download subtitles from opensubtitles.org</description>
+    <description lang="zh">从 opensubtitles.org 搜索并下载字幕</description>
+    <disclaimer lang="en"></disclaimer>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum>http://forum.xbmc.org/showthread.php?tid=183114</forum>
+    <website></website>
+    <email></email>
+    <source>https://github.com/amet/service.subtitles.opensubtitles</source>
+  </extension>
 </addon>
 </addons>
