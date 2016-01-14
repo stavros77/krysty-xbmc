@@ -63,7 +63,7 @@ class Service(xbmc.Player):
 			
 			self.tracking = self.check()
 			
-			if self.tracking:			
+			if self.tracking:
 				xbmc.log('cinemaxx.ro: Service: Tracking progress...')
 				
 				win = xbmcgui.Window(10000)
