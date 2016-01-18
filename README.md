@@ -4,8 +4,6 @@
 <br /><br />
 [download repository](https://github.com/yokrysty/krysty-xbmc/raw/master/repository.krysty-xbmc/repository.krysty-xbmc-1.0.0.zip)
 
-plugin.video.990 v0.5.3 [download here](https://github.com/yokrysty/krysty-xbmc/raw/master/plugin.video.990/plugin.video.990-0.5.3.zip) (for testing purpose only)
-
 <br /><br />
 Notes:
 

@@ -1,3 +1,28 @@
+0.5.4
+-> fixed: stream sources parser
+-> changed: metadata is turned off by default, until
+   I write a faster implementation
+-> changed: only display source(s) with resolver
+-> improved for reliability and speed
+-> some other various fixes
+
+0.5.3
+-> fixed: subtitle problem
+
+0.5.2
+-> changed: html parser for BeautifulSoup to html5lib
+   now there are no more blank list issues on Android
+
+0.5.1
+-> solved: error on Android
+
+0.5.0
+-> added: support for multiple mirrors
+-> added: implementation of metadata
+-> added: new and improved url resolver
+-> changed: Beautiful Soup updated to version 4
+-> code cleanup
+
 0.4.19
 -> fixed: subtitle problem
 
