@@ -38,6 +38,25 @@
     </extension>
 </addon>
 
+<addon
+    id="plugin.video.livetvonline"
+    name="LiveTvOnline.ro"
+    version="1.0.0"
+    provider-name="krysty">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py"><provides>video</provides></extension>
+    <extension point="xbmc.addon.metadata">
+        <provides>video</provides>
+        <platform>all</platform>
+		<website>https://github.com/yokrysty/krysty-xbmc</website>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+        <summary>Televiziune Online</summary>
+        <description>Vizionare programe TV listate pe [COLOR blue]https://www.livetvonline.ro/[/COLOR]. Aceasta aplicatie este independenta de site-ul livetvonline.ro si este oferita gratuit. Pentru a putea viziona toate programele TV trebuie sa detineti un cont cu abonament pe site-ul livetvonline.ro</description>
+    </extension>
+</addon>
+
 <addon id="repository.krysty-xbmc" name="Krysty's Addons" version="1.0.0" provider-name="krysty">
 	<extension point="xbmc.addon.repository" name="Krysty's Addons">
 		<info compressed="false">https://raw.githubusercontent.com/yokrysty/krysty-xbmc/master/addons.xml</info>
