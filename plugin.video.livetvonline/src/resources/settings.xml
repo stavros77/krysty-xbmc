@@ -1,0 +1,4 @@
+<settings>
+    <setting id="email" value="" option="hidden" />
+    <setting id="password" value="" option="hidden" />
+</settings>
