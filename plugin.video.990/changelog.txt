@@ -1,3 +1,6 @@
+0.5.5
+-> fixed: integration with Kodi Favourites
+
 0.5.4
 -> fixed: stream sources parser
 -> changed: metadata is turned off by default, until
