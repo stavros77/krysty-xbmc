@@ -17,12 +17,11 @@
 	along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
-import sys, os, time, traceback
+import sys, os, re, time, traceback
 import urllib, urlparse
 import xbmc, xbmcplugin, xbmcgui
-import common, enc, scraper, gui_utils, log_utils
+import common, enc, scraper, tvguide, gui_utils, log_utils
 from resources.lib import ga
-
 
 script_start = time.time()
 log_utils.log(ga.getPlatform())
@@ -41,6 +40,41 @@ log_utils.log('--- Name: ' + NAME)
 log_utils.log('--- Thumbnail: ' + THUMBNAIL)
 log_utils.log('------------------------------------------')
 
+
+if MODE == 2:
+    progress = xbmcgui.DialogProgress()
+    progress.create('Asteptati...', 'Cautare program TV...')
+
+    tvchannel = re.sub(r'\(\d+p\)', r'', NAME).strip()
+    
+    info = tvguide.getTVGuide(tvchannel)
+    
+    if not info:
+        xbmcgui.Dialog().ok('EROARE', 'Programul TV pentru acest canal nu a fost gasit.')
+        sys.exit()
+    
+    items = []
+    
+    x = False
+    y = 0
+    for i in xrange(len(info)):
+        item = info[i][0] + ' ' * 5 + info[i][1]
+        if info[i][2]:
+            item = '[COLOR red]' + item + '[/COLOR]'
+            x = True
+            y = i
+        items.append(item)
+    
+    if x:
+        items = items[y:]
+    
+    progress.close()
+    
+    xbmcgui.Dialog().select(tvchannel + ' Program TV', items)
+    
+    sys.exit()
+
+
 _email = None
 _password = None
 
@@ -57,7 +91,7 @@ def getUserCredentials():
 getUserCredentials()
 
 if not _email:
-        dialog = gui_utils.loginDialog()
+        dialog = gui_utils.LoginDialog()
         dialog.doModal()
         loginData = dialog.get_query()
         del dialog
@@ -83,26 +117,27 @@ scraper.setUserCredentials(_email, _password)
 
 
 def main():
+    addDir('Canale TV', '', 1, os.path.join(common.addon_path, 'resources', 'media', 'tvicon.png'))
     addDir('Stare Cont', '', 98, os.path.join(common.addon_path, 'resources', 'media', 'accountinfoicon.png'))
     addDir('Logout', '', 99, os.path.join(common.addon_path, 'resources', 'media', 'logouticon.png'))
     
-    progress = xbmcgui.DialogProgress()
-    progress.create('Asteptati...', 'Se descarca lista canalelor...')
-    
+    xbmcplugin.endOfDirectory(int(sys.argv[1]))    
+    xbmc.executebuiltin('Container.SetViewMode(500)')
+
+
+def TVChannels():    
     channels = scraper.getTVChannelsList()
     
     if not channels:
         xbmcgui.Dialog().ok('EROARE', 'Nu s-a putut obtine lista canalelor.')
+        sys.exit()
     
     total = len(channels)
     
     for channel in channels:
         addDir(channel['name'], channel['id'], 10, channel['img'], False, total)
     
-    progress.close()
-    
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
-    
     xbmc.executebuiltin('Container.SetViewMode(500)')
 
 
@@ -129,9 +164,17 @@ def addDir(name,url,mode,thumbnail='',folder=True,totalItems=0):
     listitem.setLabel(name)
     listitem.setIconImage(thumbnail)
     listitem.setThumbnailImage(thumbnail)
-    listitem.setInfo(type = 'Video', infoLabels = {'title': name})
-    listitem.addContextMenuItems([], replaceItems=True)
     listitem.setProperty('fanart_image', os.path.join(common.addon_path, 'fanart.jpg'))
+    
+    contextMenuItems = []
+    
+    if not folder:
+        listitem.setInfo(type = 'Video', infoLabels = {'title': name})
+        params = {'name': name, 'mode': 2}
+        u = sys.argv[0] + '?' + urllib.urlencode(params)
+        contextMenuItems.append(('Program TV', 'XBMC.RunPlugin(%s)' % u))
+    
+    listitem.addContextMenuItems(contextMenuItems, replaceItems=True)
     
     params = {}
     params['name'] = name
@@ -150,6 +193,9 @@ def addDir(name,url,mode,thumbnail='',folder=True,totalItems=0):
 
 if MODE == 0:
     main()
+
+elif MODE == 1:
+    TVChannels()
 
 elif MODE == 10:
     playStream(URL, NAME, THUMBNAIL)

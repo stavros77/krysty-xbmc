@@ -1,4 +1,3 @@
-import os
 import xbmcgui
 import common
 
@@ -15,6 +14,12 @@ class LoginDialog(xbmcgui.WindowXMLDialog):
         ('email', 30, 105, 30, 450, 0),
         ('password', 30, 185, 30, 450, 1)
     ]
+    
+    def __new__(cls):
+        return super(LoginDialog, cls).__new__(cls, 'LoginDialog.xml', common.addon_path, 'Default', '720p')
+
+    def __init__(self):
+        super(LoginDialog, self).__init__()
 
     def onInit(self):
         self.query_controls = []
@@ -86,7 +91,3 @@ class LoginDialog(xbmcgui.WindowXMLDialog):
             query = dict(zip(params, texts))
             return query
         return None
-
-
-def loginDialog():
-    return LoginDialog('LoginDialog.xml', common.addon_path, 'Default', '720p')

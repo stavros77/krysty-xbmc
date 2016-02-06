@@ -1,6 +1,6 @@
 import os, time, re, random, traceback
 import urllib, urllib2
-import common, log_utils
+import common, utils, log_utils
 from cookielib import LWPCookieJar
 from resources.lib import mechanize
 from resources.lib.parsedom import parseDOM
@@ -40,9 +40,8 @@ def http_req(url, data=None, headers={}, cookie=None):
     
     if data is not None:
         data = urllib.urlencode(data)
-        req = urllib2.Request(url, data)
-    else:
-        req = urllib2.Request(url)
+    
+    req = urllib2.Request(url, data)
     
     for k, v in common.HEADERS.items():
         req.add_header(k, v)
@@ -85,6 +84,47 @@ def doLogin(email, password):
         log_utils.log(traceback.print_exc())
 
     return False
+
+
+def formatTVChannelName(name):
+    name = utils.titlecase(name)
+    name = re.sub(r'(\d+)P', r'\1p', name)
+    name = re.sub(r'(TVR|Antena|Sport|Dolcesport|Eurosport)(\d)', r'\1 \2', name, flags=re.IGNORECASE)
+    nsplit = name.split(' ')
+    
+    for i in xrange(len(nsplit)):
+        if len(nsplit[i]) <= 3:
+            nsplit[i] = nsplit[i].upper()
+    name = ' '.join(nsplit)
+    
+    if 'HD' in name:
+        x = name.find('HD')
+        if name[x-1:x] != ' ':
+            name = name.replace('HD', ' HD')
+    
+    name = name.replace('Animal HD', 'Animal Planet HD')
+    name = name.replace('Showcase HD', 'Discovery Showcase HD')
+    
+    dict = {
+        'Discovery':        'Discovery Channel',
+        'World':            'Discovery World',
+        'Science':          'Discovery Science',
+        'Comedy Extra':     'Comedy Central Extra',
+        'MTV':              'MTV Romania',
+        'Digi Animal':      'Digi Animal World',
+        'Investigation':    'Discovery Investigation',
+        'History Channel':  'History',
+        'Geographic':       'National Geographic',
+        'Geographic Wild':  'Nat Geo Wild',
+        'Disney':           'Disney Channel',
+        'Travel':           'Travel Channel',
+        'RTV':              'Romania TV'
+    }
+    
+    if name in dict:
+        return dict[name]
+    
+    return name
 
 
 def _getHtml():
@@ -136,9 +176,8 @@ def getTVChannelsList():
             tv = {}
             tv['id'] = id.strip().encode('utf-8')
             tv['img'] = img.strip().encode('utf-8')
-            tv['name'] = name.strip().encode('utf-8')
+            tv['name'] = formatTVChannelName(name.strip().encode('utf-8'))
             lst.append(tv)
-    
     except:
         log_utils.log(traceback.print_exc())
     

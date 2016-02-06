@@ -1,3 +1,7 @@
+1.0.4
+-> added: TV Guide
+   access it by right click on desired channel
+
 1.0.3
 -> temporary fix for login problem on Android
 
