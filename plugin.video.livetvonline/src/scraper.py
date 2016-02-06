@@ -89,7 +89,7 @@ def doLogin(email, password):
 def formatTVChannelName(name):
     name = utils.titlecase(name)
     name = re.sub(r'(\d+)P', r'\1p', name)
-    name = re.sub(r'(TVR|Antena|Sport|Dolcesport|Eurosport)(\d)', r'\1 \2', name, flags=re.IGNORECASE)
+    name = re.sub(r'((?i)TVR|Antena|Sport|Dolcesport|Eurosport)(\d)', r'\1 \2', name)
     nsplit = name.split(' ')
     
     for i in xrange(len(nsplit)):

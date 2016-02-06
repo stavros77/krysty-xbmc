@@ -1,3 +1,9 @@
+1.0.5
+-> fixed: typos
+-> changed: html parser for BeautifulSoup to html5lib
+   because of some issues on Android with the default one
+-> other fixes TV Guide
+ 
 1.0.4
 -> added: TV Guide
    access it by right click on desired channel

@@ -1,6 +1,5 @@
 import re, urllib, urllib2, traceback
 from difflib import SequenceMatcher
-from resources.lib import google
 from resources.lib.parsedom import parseDOM
 from resources.lib.bs4 import BeautifulSoup
 import common, utils, log_utils
@@ -26,9 +25,9 @@ def getChannelGuideUrl(tvchannel):
             ratio = SequenceMatcher(None, str1, str2).ratio()
             ratio_list.append(ratio)
         
-        ratio_max = max(xrange(len(ratio_list)),key=ratio_list.__getitem__)
+        ratio_max_index = max(xrange(len(ratio_list)), key=ratio_list.__getitem__)
         
-        return urls[ratio_max]
+        return urls[ratio_max_index]
     
     except:
         log_utils.log(traceback.print_exc())
@@ -49,17 +48,16 @@ def getTVGuide(tvchannel):
         html = conn.read()
         conn.close()
         
-        table = parseDOM(html, 'table', attrs={'class': 'main_table'})[0]
-        tds = parseDOM(table, 'td', attrs={'class': 'container_events'})
+        soup = BeautifulSoup(html, 'html5lib')
+        tds = soup.findAll('td', attrs={'class': 'container_events'})
         tds = [tds[i] for i in xrange(len(tds)) if divmod(i, 4)[1] == 0]
         
         hours = []
         titles = []
         
         for td in tds:
-            soup = BeautifulSoup(td, 'html.parser')
-            hours += soup.findAll('td', attrs={'class', 'ora'})
-            titles += soup.findAll('div', attrs={'class', 'title'})
+            hours.extend(td.findAll('td', attrs={'class': 'ora'}))
+            titles.extend(td.findAll('div', attrs={'class': 'title'}))
         
         if not hours or not titles or len(hours) != len(titles):
             return None
