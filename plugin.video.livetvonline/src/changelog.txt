@@ -1,8 +1,11 @@
+1.0.6
+-> added: parental control
+
 1.0.5
 -> fixed: typos
 -> changed: html parser for BeautifulSoup to html5lib
    because of some issues on Android with the default one
--> other fixes TV Guide
+-> other fixes for TV Guide
  
 1.0.4
 -> added: TV Guide

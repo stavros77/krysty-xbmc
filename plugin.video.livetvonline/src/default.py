@@ -142,6 +142,8 @@ def TVChannels():
 
 
 def playStream(id, name, thumbnail=''):
+    global _password
+
     progress = xbmcgui.DialogProgress()
     progress.create('Asteptati...', 'Cautare stream...')
     
@@ -153,10 +155,18 @@ def playStream(id, name, thumbnail=''):
         xbmcgui.Dialog().ok('EROARE', 'Stream-ul nu a fost gasit.')
         sys.exit()
     
+    if stream[1]:
+        pwd = xbmcgui.Dialog().input('Reintroduceti parola')
+        if not pwd:
+            sys.exit()
+        elif pwd != _password:
+            xbmcgui.Dialog().ok('EROARE', 'Parola incorecta')
+            sys.exit()
+    
     liz = xbmcgui.ListItem(name, iconImage=thumbnail, thumbnailImage=thumbnail)
     liz.setInfo(type = 'Video', infoLabels = {'title': name})
     
-    xbmc.Player().play(item=stream, listitem=liz)
+    xbmc.Player().play(item=stream[0], listitem=liz)
 
 
 def addDir(name,url,mode,thumbnail='',folder=True,totalItems=0):

@@ -18,11 +18,17 @@ def getChannelGuideUrl(tvchannel):
         urls = parseDOM(html, 'a', attrs={'class': 'station-link'}, ret='href')
         names = parseDOM(html, 'a', attrs={'class': 'station-link'})
         
+        seq2 = tvchannel.lower().replace(' ', '').strip()
+        
+        seqm = SequenceMatcher()
+        seqm.set_seq2(seq2)
+        
         ratio_list = []
+        
         for name in names:
-            str1 = name.lower().replace(' ', '').strip()
-            str2 = tvchannel.lower().replace(' ', '').strip()
-            ratio = SequenceMatcher(None, str1, str2).ratio()
+            seq1 = name.lower().replace(' ', '').strip()
+            seqm.set_seq1(seq1)
+            ratio = seqm.ratio()
             ratio_list.append(ratio)
         
         ratio_max_index = max(xrange(len(ratio_list)), key=ratio_list.__getitem__)

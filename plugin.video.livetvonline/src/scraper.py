@@ -199,9 +199,10 @@ def getStreamUrl(stream_id):
             data = b64.decode(data)
             data = phpserialize.loads(data)
             
+            parental = 'is_parental' in data and data['is_parental'] == '1'
             rtmp = '%s://%s/%s/%s' % (data['stream_type'], data['server'], data['app'], data['stream'])
             
-            return rtmp
+            return (rtmp, parental)
     except:
         log_utils.log(traceback.print_exc())
     
