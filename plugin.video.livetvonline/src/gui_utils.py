@@ -20,6 +20,7 @@ class LoginDialog(xbmcgui.WindowXMLDialog):
 
     def __init__(self):
         super(LoginDialog, self).__init__()
+        self.flag = False
 
     def onInit(self):
         self.query_controls = []
@@ -59,8 +60,6 @@ class LoginDialog(xbmcgui.WindowXMLDialog):
             self.close()
 
     def onClick(self, control):
-        self.flag = False
-        
         if control == self.LOGIN_BUTTON:
             for control in self.query_controls:
                 if control.getText().strip() == '':

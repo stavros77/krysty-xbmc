@@ -2,18 +2,26 @@ import re, urllib, urllib2, traceback
 from difflib import SequenceMatcher
 from resources.lib.parsedom import parseDOM
 from resources.lib.bs4 import BeautifulSoup
-import common, utils, log_utils
+import utils, log_utils
+
+
+_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36'
+
+
+def _getHtml(url):
+    req = urllib2.Request(url)
+    req.add_header('User-Agent', _USER_AGENT)
+    conn = urllib2.urlopen(req, timeout=5)
+    html = conn.read()
+    conn.close()
+    return html
 
 
 def getChannelGuideUrl(tvchannel):
     url = 'https://www.cinemagia.ro/program-tv/'
     
     try:
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', common.HEADERS['User-Agent'])
-        conn = urllib2.urlopen(req, timeout=5)
-        html = conn.read()
-        conn.close()
+        html = _getHtml(url)
         
         urls = parseDOM(html, 'a', attrs={'class': 'station-link'}, ret='href')
         names = parseDOM(html, 'a', attrs={'class': 'station-link'})
@@ -48,11 +56,7 @@ def getTVGuide(tvchannel):
         return None
     
     try:
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', common.HEADERS['User-Agent'])
-        conn = urllib2.urlopen(req, timeout=5)
-        html = conn.read()
-        conn.close()
+        html = _getHtml(url)
         
         soup = BeautifulSoup(html, 'html5lib')
         tds = soup.findAll('td', attrs={'class': 'container_events'})

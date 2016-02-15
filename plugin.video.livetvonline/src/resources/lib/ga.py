@@ -20,7 +20,7 @@ def getPlatform():
             'Linux': 'X11; Linux',
             'Windows': 'Windows NT %d.%d',
             'OSX': 'Macintosh; Intel Mac OS X',
-            'IOS': 'iPad; CPU OS 6_1 like Mac OS X',
+            'IOS': 'iPad; CPU OS 6_1 like Mac OS X'
         }
         
         for os, os_version in os_platforms.items():
