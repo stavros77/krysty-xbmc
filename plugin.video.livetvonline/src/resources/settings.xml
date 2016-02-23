@@ -1,5 +1,0 @@
-<settings>
-    <setting id="email" value="" option="hidden" />
-    <setting id="auth_hash" value="" option="hidden" />
-    <setting id="device_uuid" value="" option="hidden" />
-</settings>
