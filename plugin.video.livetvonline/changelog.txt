@@ -1,3 +1,6 @@
+2.0.2
+-> fixes for OS X
+
 2.0.1
 -> some bug fixes
 -> code cleanup
