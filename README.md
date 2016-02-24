@@ -3,7 +3,7 @@
 <strong>If you like this project please </strong>[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=X9559SH2MKQ7S)
 <br /><br />
 [download repository](https://github.com/yokrysty/krysty-xbmc/raw/master/repository.krysty-xbmc/repository.krysty-xbmc-1.0.0.zip)
-<br />
+<br /><br />
 
 Notes:
 - for better performance right click [here](https://github.com/yokrysty/krysty-xbmc/raw/master/advancedsettings.xml), click 'Save link as' (Google Chrome) or 'Save Linked Content As' (Opera), save the file anywhere, then move the file to userdata folder of XBMC/Kodi.
