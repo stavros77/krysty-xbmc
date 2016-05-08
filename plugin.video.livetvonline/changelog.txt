@@ -1,3 +1,6 @@
+2.0.4
+-> fix for VU+ receivers
+
 2.0.3
 -> changed: TV Channels are listed by content‎
 
