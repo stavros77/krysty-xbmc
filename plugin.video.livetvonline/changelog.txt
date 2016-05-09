@@ -1,3 +1,6 @@
+2.0.5
+-> fixed: category for some channels
+
 2.0.4
 -> fix for VU+ receivers
 
