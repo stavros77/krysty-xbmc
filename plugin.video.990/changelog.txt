@@ -1,3 +1,7 @@
+0.5.10
+-> fixed: openload resolver (again);
+   this will probably become a frequent think xd
+
 0.5.9
 -> fixed: video links scraper
 
