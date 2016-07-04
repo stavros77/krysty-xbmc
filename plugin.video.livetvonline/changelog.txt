@@ -1,3 +1,6 @@
+2.0.6
+-> small API changes
+
 2.0.5
 -> fixed: category for some channels
 
