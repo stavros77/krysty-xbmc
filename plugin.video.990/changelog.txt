@@ -1,3 +1,7 @@
+0.5.11
+-> change domain address to ip address,
+   because the domain was closed
+
 0.5.10
 -> fixed: openload resolver (again);
    this will probably become a frequent think xd
