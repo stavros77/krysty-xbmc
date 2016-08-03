@@ -1,3 +1,7 @@
+2.0.8
+-> API update
+-> fixed compatibility issues with Kodi Krypton
+
 2.0.7
 -> changed: API url
 

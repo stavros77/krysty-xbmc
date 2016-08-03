@@ -22,7 +22,7 @@
 <addon
     id="plugin.video.livetvonline"
     name="LiveTvOnline.ro"
-    version="2.0.7"
+    version="2.0.8"
     provider-name="krysty">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
