@@ -1,3 +1,8 @@
+2.0.9
+-> plugin name updated
+-> icons update
+-> small fixes
+
 2.0.8
 -> API update
 -> fixed compatibility issues with Kodi Krypton

@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.990"
-       name="990.ro"
-       version="0.5.11"
-       provider-name="krysty">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py"><provides>video</provides></extension>
-	<extension point="xbmc.service" library="service.py" start="startup"></extension>
-    <extension point="xbmc.addon.metadata">
-		<provides>video</provides>
-        <platform>all</platform>
-		<website>https://github.com/yokrysty/krysty-xbmc</website>
-        <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
-        <summary>Stream videos from www.990.ro</summary>
-        <description>Stream scene releases from the links listed on [COLOR blue]www.990.ro[/COLOR]</description>
-    </extension>
-</addon>
-
 <addon
     id="plugin.video.livetvonline"
-    name="LiveTvOnline.ro"
-    version="2.0.8"
+    name="VadLive"
+    version="2.0.9"
     provider-name="krysty">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -34,7 +15,7 @@
 		<website>https://github.com/yokrysty/krysty-xbmc</website>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
         <summary>Televiziune Online</summary>
-        <description>Vizionare programe TV listate pe [COLOR blue]https://www.livetvonline.ro/[/COLOR]. Aceasta aplicatie este independenta de site-ul livetvonline.ro si este oferita gratuit. Pentru a putea viziona toate programele TV trebuie sa detineti un cont cu abonament pe site-ul livetvonline.ro</description>
+        <description>Vizionare programe TV listate pe [COLOR blue]https://www.VadLive.com/[/COLOR]. Aceasta aplicatie este independenta de site-ul VadLive.com si este oferita gratuit. Pentru a putea viziona toate programele TV trebuie sa detineti un cont cu abonament pe site-ul VadLive.com</description>
     </extension>
 </addon>
 
